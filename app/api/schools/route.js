@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import db from '@/lib/database';
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
 // GET - Fetch all schools
 export async function GET() {
   try {

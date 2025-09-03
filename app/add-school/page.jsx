@@ -74,51 +74,38 @@ export default function AddSchool() {
     setImagePreview('');
   };
 
-  const uploadImage = async () => {
-    if (!imageFile) return null;
-
-    const formData = new FormData();
-    formData.append('image', imageFile);
-
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to upload image');
-    }
-
-    const data = await response.json();
-    return data.imagePath;
-  };
-
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     
     try {
-      let imagePath = null;
+      // Create FormData for combined data and image upload
+      const formData = new FormData();
       
-      // Upload image if provided
+      // Add school data
+      formData.append('name', data.name);
+      formData.append('address', data.address);
+      formData.append('city', data.city);
+      formData.append('state', data.state);
+      formData.append('contact', data.contact);
+      formData.append('email', data.email);
+      
+      // Add image if provided
       if (imageFile) {
-        imagePath = await uploadImage();
+        formData.append('image', imageFile);
       }
 
-      // Submit school data
-      const response = await fetch('/api/schools', {
+      // Submit combined data and image
+      const response = await fetch('/api/schools/upload', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          imagePath,
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add school');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to add school');
       }
+
+      const result = await response.json();
 
       toast.success('School has been added successfully!', {
         description: 'You can now view it in the schools directory.',
