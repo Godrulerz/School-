@@ -47,18 +47,19 @@
 <div align="center">
 
 ### 🏠 Landing Page
-![Landing Page](https://drive.google.com/file/d/1D6Ee4F6V21zagkGpfQck8xYZlXj125UB/view?usp=drive_link)
+[![Landing Page](https://drive.google.com/uc?id=1D6Ee4F6V21zagkGpfQck8xYZlXj125UB)](https://drive.google.com/file/d/1D6Ee4F6V21zagkGpfQck8xYZlXj125UB/view?usp=drive_link)  
 *Modern dashboard with school management overview and key features*
 
 ### 📋 School Directory
-![School Directory](https://drive.google.com/file/d/1vgsvkWhjGXbUUW8CJ9suSVSsbodnLKaA/view?usp=drive_link)
+[![School Directory](https://drive.google.com/uc?id=1vgsvkWhjGXbUUW8CJ9suSVSsbodnLKaA)](https://drive.google.com/file/d/1vgsvkWhjGXbUUW8CJ9suSVSsbodnLKaA/view?usp=drive_link)  
 *Interactive grid layout showcasing registered schools with hover effects*
 
 ### ➕ School Registration Form
-![Registration Form](https://drive.google.com/file/d/1odeG38B7dsdNBgaHtdxG5YQQnt-E9KmE/view?usp=drive_link)
+[![Registration Form](https://drive.google.com/uc?id=1odeG38B7dsdNBgaHtdxG5YQQnt-E9KmE)](https://drive.google.com/file/d/1odeG38B7dsdNBgaHtdxG5YQQnt-E9KmE/view?usp=drive_link)  
 *Comprehensive form with real-time validation and image upload*
 
 </div>
+
 
 ---
 
