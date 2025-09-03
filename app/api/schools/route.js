@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/database-mysql';
+import { db } from '@/lib/db';
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic';
@@ -7,7 +7,11 @@ export const dynamic = 'force-dynamic';
 // GET - Fetch all schools
 export async function GET() {
   try {
-    const schools = await db.getAllSchools();
+    const schools = await db.school.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
     return NextResponse.json({ 
       schools,
       count: schools.length,
@@ -58,8 +62,16 @@ export async function POST(request) {
       );
     }
 
-    const newSchool = await db.addSchool({
-      name, address, city, state, contact, email, imagePath
+    const newSchool = await db.school.create({
+      data: {
+        name, 
+        address, 
+        city, 
+        state, 
+        contact, 
+        email, 
+        imagePath
+      }
     });
     
     return NextResponse.json(

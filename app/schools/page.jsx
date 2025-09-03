@@ -106,9 +106,9 @@ export default function ShowSchools() {
                 className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-md overflow-hidden bg-card/80 backdrop-blur-sm hover:bg-card/90"
               >
                 <div className="aspect-video relative overflow-hidden bg-muted">
-                  {school.image_path ? (
+                  {school.imagePath ? (
                     <img
-                      src={school.image_path}
+                      src={school.imagePath}
                       alt={school.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />

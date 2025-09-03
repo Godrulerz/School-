@@ -110,14 +110,29 @@ Before you begin, ensure you have the following installed:
    yarn install
    ```
 
-3. **🏃‍♂️ Run Development Server**
+3. **🗄️ Setup Database**
+   ```bash
+   # Copy environment file
+   cp env.example .env.local
+   
+   # Edit .env.local with your DATABASE_URL
+   # DATABASE_URL="mysql://username:password@host:port/database"
+   
+   # Generate Prisma client
+   npx prisma generate
+   
+   # Run database migrations
+   npx prisma migrate deploy
+   ```
+
+4. **🏃‍♂️ Run Development Server**
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-4. **🌐 Open in Browser**
+5. **🌐 Open in Browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### 🎯 Quick Start Commands
@@ -144,9 +159,49 @@ npm run lint
    npm run build
    ```
 
-## Note on Database
+## 🚀 Deployment to Vercel with Railway MySQL
 
-This implementation uses SQLite instead of MySQL for compatibility with serverless environments. SQLite provides the same functionality while being more suitable for deployment and development in modern web environments.
+### Step 1: Create MySQL Database on Railway
+
+1. Go to [Railway](https://railway.app/) and sign in
+2. Create a new project
+3. Add a MySQL database service
+4. Copy the connection string from the database service
+
+### Step 2: Deploy to Vercel
+
+1. **Connect your repository to Vercel**:
+   - Go to [Vercel](https://vercel.com/)
+   - Import your GitHub repository
+   - Configure the project settings
+
+2. **Add Environment Variables**:
+   - In your Vercel project dashboard, go to Settings → Environment Variables
+   - Add `DATABASE_URL` with your Railway MySQL connection string
+   - Format: `mysql://username:password@host:port/database`
+
+3. **Deploy and Run Migrations**:
+   ```bash
+   # After deployment, run migrations to sync your schema
+   npx prisma migrate deploy
+   ```
+
+4. **Redeploy the App**:
+   - Trigger a new deployment in Vercel to ensure all changes are applied
+
+### Step 3: Verify Deployment
+
+- Check that your API endpoints are working:
+  - `GET /api/users` - Should return an empty array initially
+  - `POST /api/users` - Should create new users
+
+## 🗄️ Database Schema
+
+This project now uses **Prisma ORM** with **MySQL** for production deployment:
+
+- **User Model**: `id`, `name`, `email` (unique)
+- **Prisma Client**: Singleton pattern for Vercel serverless compatibility
+- **Migrations**: Managed through Prisma migrate
 
 ## Contributing
 

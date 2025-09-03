@@ -5,11 +5,11 @@
     }
   },
   "env": {
-    "RAILWAY_MYSQL_URL": "@railway_mysql_url"
+    "RAILWAY_MYSQL_URL": "mysql://root:EflojxKqSWNDCULGMJZuezzHSqkaBIQr@yamanote.proxy.rlwy.net:10297/railway"
   },
   "build": {
     "env": {
-      "RAILWAY_MYSQL_URL": "@railway_mysql_url"
+      "RAILWAY_MYSQL_URL": "mysql://root:EflojxKqSWNDCULGMJZuezzHSqkaBIQr@yamanote.proxy.rlwy.net:10297/railway"
     }
   }
 }
