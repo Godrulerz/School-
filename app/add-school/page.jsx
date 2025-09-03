@@ -34,19 +34,31 @@ export default function AddSchool() {
   const watchedFields = watch();
 
   const handleImageChange = (file) => {
-    if (file && file.type.startsWith('image/')) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        toast.error('Image size should be less than 5MB');
-        return;
-      }
-      
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onload = (e) => setImagePreview(e.target.result);
-      reader.readAsDataURL(file);
-    } else {
-      toast.error('Please select a valid image file');
+    // Validate file type - only JPEG and PNG
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('Only JPEG and PNG images are allowed', {
+        description: 'Please select a .jpg or .png image file'
+      });
+      return;
     }
+    
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      toast.error('Image size should be less than 5MB', {
+        description: `Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`
+      });
+      return;
+    }
+    
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onload = (e) => setImagePreview(e.target.result);
+    reader.readAsDataURL(file);
+    
+    toast.success('Image selected successfully', {
+      description: `${file.type.split('/')[1].toUpperCase()} image ready for upload`
+    });
   };
 
   const handleDrag = (e) => {
@@ -359,7 +371,7 @@ export default function AddSchool() {
                     >
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/jpeg,image/jpg,image/png"
                         onChange={(e) => handleImageChange(e.target.files[0])}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
@@ -368,7 +380,7 @@ export default function AddSchool() {
                         Drop your image here, or click to browse
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Supports JPG, PNG, GIF up to 5MB
+                        Supports JPEG and PNG up to 5MB
                       </p>
                     </div>
                   ) : (

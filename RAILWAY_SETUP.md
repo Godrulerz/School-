@@ -39,7 +39,16 @@ Railway will automatically:
 ✅ **Connection Pooling** - Optimized database performance  
 ✅ **SSL Support** - Secure connection to Railway MySQL  
 ✅ **Error Handling** - Comprehensive error management  
-✅ **CRUD Operations** - Full database functionality  
+✅ **CRUD Operations** - Full database functionality
+
+## 📸 Image Upload Features
+
+✅ **JPEG & PNG Support** - Only JPEG and PNG images allowed  
+✅ **File Size Validation** - 5MB maximum file size  
+✅ **Automatic Format Detection** - Proper file extension handling  
+✅ **Railway Compatible** - Optimized for Railway file system  
+✅ **Error Handling** - Detailed validation messages  
+✅ **Preview Support** - Image preview before upload  
 
 ## 📊 Database Schema
 

@@ -1,40 +1,26 @@
 import { NextResponse } from 'next/server';
-import multer from 'multer';
 import path from 'path';
-import { mkdir } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic';
 
-// Configure multer for memory storage (for Next.js API routes)
-const storage = multer.memoryStorage();
+// Supported image formats for Railway deployment
+const SUPPORTED_FORMATS = {
+  'image/jpeg': '.jpg',
+  'image/jpg': '.jpg', 
+  'image/png': '.png',
+  'image/webp': '.webp'
+};
 
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    // Check if file is an image
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed!'), false);
-    }
-  },
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-    files: 1 // Only one file at a time
-  }
-});
+// Validate image format
+const isValidImageFormat = (mimeType) => {
+  return Object.keys(SUPPORTED_FORMATS).includes(mimeType);
+};
 
-// Helper function to run multer middleware
-const runMiddleware = (req, res, fn) => {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-      return resolve(result);
-    });
-  });
+// Get file extension from mime type
+const getFileExtension = (mimeType) => {
+  return SUPPORTED_FORMATS[mimeType] || '.jpg';
 };
 
 export async function POST(request) {
@@ -44,50 +30,69 @@ export async function POST(request) {
     const file = formData.get('image');
 
     if (!file) {
-      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+      return NextResponse.json({ 
+        error: 'No file uploaded',
+        message: 'Please select an image file to upload'
+      }, { status: 400 });
     }
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      return NextResponse.json({ error: 'Only image files are allowed' }, { status: 400 });
+    // Validate file type - only JPEG and PNG for Railway
+    if (!isValidImageFormat(file.type)) {
+      return NextResponse.json({ 
+        error: 'Invalid file format',
+        message: 'Only JPEG (.jpg) and PNG (.png) images are allowed',
+        supportedFormats: ['image/jpeg', 'image/png']
+      }, { status: 400 });
     }
 
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: 'File size must be less than 5MB' }, { status: 400 });
+    // Validate file size (5MB limit for Railway)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      return NextResponse.json({ 
+        error: 'File too large',
+        message: `File size must be less than 5MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`
+      }, { status: 400 });
     }
 
     // Convert file to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create upload directory if it doesn't exist
+    // Create upload directory if it doesn't exist (Railway compatible)
     const uploadDir = path.join(process.cwd(), 'public', 'schoolImages');
     await mkdir(uploadDir, { recursive: true });
 
-    // Generate unique filename
+    // Generate unique filename with proper extension
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.name);
-    const filename = `school-${uniqueSuffix}${ext}`;
+    const extension = getFileExtension(file.type);
+    const filename = `school-${uniqueSuffix}${extension}`;
     const filepath = path.join(uploadDir, filename);
 
-    // Write the file using fs/promises
-    const { writeFile } = await import('fs/promises');
+    // Write the file
     await writeFile(filepath, buffer);
 
     // Return the public URL path
     const publicPath = `/schoolImages/${filename}`;
     
+    console.log(`✅ Image uploaded successfully: ${filename} (${file.type}, ${(file.size / 1024).toFixed(2)}KB)`);
+    
     return NextResponse.json({ 
+      success: true,
       imagePath: publicPath,
       filename: filename,
       size: file.size,
-      type: file.type
+      type: file.type,
+      format: file.type.split('/')[1].toUpperCase(),
+      message: 'Image uploaded successfully'
     });
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('❌ Upload error:', error);
     return NextResponse.json(
-      { error: 'Failed to upload image', details: error.message },
+      { 
+        error: 'Failed to upload image', 
+        message: 'An error occurred while uploading the image',
+        details: error.message 
+      },
       { status: 500 }
     );
   }
