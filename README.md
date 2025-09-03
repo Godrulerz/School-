@@ -179,56 +179,8 @@ npm run lint
    npm run build
    ```
 
-## 🚀 Deployment to Vercel with Railway MySQL
 
-### Step 1: Create MySQL Database on Railway
 
-1. Go to [Railway](https://railway.app/) and sign in
-2. Create a new project
-3. Add a MySQL database service
-4. Copy the connection string from the database service
-
-### Step 2: Deploy to Vercel
-
-1. **Connect your repository to Vercel**:
-   - Go to [Vercel](https://vercel.com/)
-   - Import your GitHub repository
-   - Configure the project settings
-
-2. **Add Environment Variables**:
-   - In your Vercel project dashboard, go to Settings → Environment Variables
-   - Add `DATABASE_URL` with your Railway MySQL connection string
-   - Format: `mysql://username:password@host:port/database`
-
-3. **Deploy and Run Migrations**:
-   ```bash
-   # After deployment, run migrations to sync your schema
-   npx prisma migrate deploy
-   ```
-
-4. **Redeploy the App**:
-   - Trigger a new deployment in Vercel to ensure all changes are applied
-
-### Step 3: Verify Deployment
-
-- Check that your API endpoints are working:
-  - `GET /api/users` - Should return an empty array initially
-  - `POST /api/users` - Should create new users
-
-## 🗄️ Database Schema
-
-This project now uses **Prisma ORM** with **MySQL** for production deployment:
-
-- **User Model**: `id`, `name`, `email` (unique)
-- **Prisma Client**: Singleton pattern for Vercel serverless compatibility
-- **Migrations**: Managed through Prisma migrate
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
 
 ## License
 
