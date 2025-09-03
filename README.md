@@ -9,7 +9,7 @@
 
 *A modern, responsive school management application built with cutting-edge technologies*
 
-[🚀 Live Demo](#) • [📖 Documentation](#getting-started) • [🐛 Report Bug](#) • [✨ Request Feature](#)
+[🚀 Live Demo](https://school-management-system-ashish.vercel.app/) • [📖 Documentation](#getting-started) • [🐛 Report Bug](#) • [✨ Request Feature](#)
 
 </div>
 
