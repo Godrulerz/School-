@@ -107,11 +107,16 @@ export default function Home() {
             <School className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             <span className="text-xl font-bold text-foreground">School Management</span>
           </div>
-          <p className="text-muted-foreground mb-2">
-            Built with Next.js, TailwindCSS, and modern web technologies
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Built with Next.js, TailwindCSS, and modern web technologies
+          <p className="text-muted-foreground">
+            Developed by{' '}
+            <a 
+              href="https://godz.rf.gd/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200 underline decoration-2 underline-offset-2 hover:decoration-blue-500"
+            >
+              Ashish Kumar
+            </a>
           </p>
         </div>
       </footer>
