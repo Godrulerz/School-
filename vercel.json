@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "app/api/**/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "RAILWAY_MYSQL_URL": "@railway_mysql_url"
+  },
+  "build": {
+    "env": {
+      "RAILWAY_MYSQL_URL": "@railway_mysql_url"
+    }
+  }
+}
