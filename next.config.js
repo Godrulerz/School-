@@ -3,9 +3,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { unoptimized: true },
-  experimental: {
-    serverComponentsExternalPackages: ['better-sqlite3']
+  images: { 
+    unoptimized: true,
+    domains: ['data:'],
+    formats: ['image/webp', 'image/avif']
   }
 };
 

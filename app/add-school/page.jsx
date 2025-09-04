@@ -44,8 +44,8 @@ export default function AddSchool() {
       return;
     }
     
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      toast.error('Image size should be less than 5MB', {
+    if (file.size > 2 * 1024 * 1024) { // 2MB limit for base64 storage
+      toast.error('Image size should be less than 2MB', {
         description: `Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`
       });
       return;
@@ -380,7 +380,7 @@ export default function AddSchool() {
                         Drop your image here, or click to browse
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Supports JPEG and PNG up to 5MB
+                        Supports JPEG and PNG up to 2MB
                       </p>
                     </div>
                   ) : (
