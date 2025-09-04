@@ -7,6 +7,20 @@ export const dynamic = 'force-dynamic';
 // GET - Fetch all schools
 export async function GET() {
   try {
+    // Test database connection first
+    const isConnected = await db.testConnection();
+    if (!isConnected) {
+      return NextResponse.json(
+        { 
+          error: 'Database connection failed',
+          message: 'Unable to connect to the database',
+          schools: [],
+          count: 0
+        },
+        { status: 503 }
+      );
+    }
+
     const schools = await db.getAllSchools();
     
     return NextResponse.json({ 
@@ -20,6 +34,8 @@ export async function GET() {
       { 
         error: 'Failed to fetch schools',
         message: 'An error occurred while fetching schools from the database',
+        schools: [],
+        count: 0,
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       },
       { status: 500 }

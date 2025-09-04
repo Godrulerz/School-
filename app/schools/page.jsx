@@ -19,13 +19,17 @@ export default function ShowSchools() {
   const fetchSchools = async () => {
     try {
       const response = await fetch('/api/schools');
-      if (!response.ok) {
-        throw new Error('Failed to fetch schools');
-      }
       const data = await response.json();
-      setSchools(data.schools);
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch schools');
+      }
+      
+      setSchools(data.schools || []);
     } catch (err) {
+      console.error('Fetch error:', err);
       setError(err.message);
+      setSchools([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
